@@ -1,0 +1,12 @@
+{
+	"ask_job_eth_usdt": {
+		"args": ["ETH-USDT", "ASK", "amount", "min_position", "max_position"],
+		"max_instances": 50,
+		"seconds": 3
+	},
+	"bid_job_eth_usdt": {
+		"args": ["ETH-USDT", "BID", "amount", "min_position", "max_position"],
+		"max_instances": 50,
+		"seconds": 3
+	}
+}

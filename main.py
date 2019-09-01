@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from apscheduler.schedulers.background import BackgroundScheduler
 import task, fun
 import time
@@ -13,17 +16,16 @@ def task_clean_invalid_job_and_order():
 	global scheduler
 	global out_of_date_job
 	global need_cancel_order_pairs
-	# 移除过期job
+	# remove job
 	if len(out_of_date_job):
 		print('remove outdate job starts...')
 		out_of_date_job_temp = out_of_date_job.copy()
-		# 清理过期job
 		for invalid_job in out_of_date_job_temp:
 			scheduler.remove_job(invalid_job)
 			out_of_date_job.remove(invalid_job)
 	else:
 		print('No outdate jobs!')
-	# 取消订单
+	# cancel order
 	if len(need_cancel_order_pairs):
 		print('cancel order starts...')
 		need_cancel_order_pairs_temp = need_cancel_order_pairs.copy()
@@ -50,12 +52,10 @@ if __name__ == '__main__':
 	for k, v in asset_pairs_map.items():
 		scheduler.add_job(task.task_keep_position, 'interval', args = v["args"], max_instances = v["max_instances"], seconds = v["seconds"], id = k)
 		time.sleep(0.5)
-		# 加入到待清理job列表和待取消订单对
+		# add to out_of_date_job list and need_cancel_order_pairs
 		out_of_date_job_temp.append(k)
 		need_cancel_order_pairs_temp.add(v["args"][0])
-		# 计数器+1
 		count += 1
-		# 每4个任务主进程休眠15m
 		if count % 4 == 0:
 			# sleep 15m
 			time.sleep(15 * 60)
@@ -68,6 +68,6 @@ if __name__ == '__main__':
 	scheduler.remove_job('cleaner')	
 
 
-	
+
 	#app.run(host='0.0.0.0', port=8080, debug=True)
 

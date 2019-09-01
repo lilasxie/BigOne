@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 from urllib import request, parse
 import json
 import tools
@@ -5,7 +8,8 @@ import globalval
 
 
 
-#--------------------获取前10挂单簿--------------------
+#--------------------GET TOP 20 ORDER BOOK--------------------
+
 
 def get_order_book(pair):
 	headers = tools.get_headers()

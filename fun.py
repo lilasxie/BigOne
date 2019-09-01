@@ -1,9 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 from urllib import request, parse
 import tools
 import globalval
 import json
 
-#--------------------------获取账户资产----------------------------
+#--------------------------GET ACCOUNT INFO----------------------------
 def get_accounts(symbol):
 	headers = tools.get_headers()
 	url = globalval.GL_API_URL_PREFIX + 'viewer/accounts/' + symbol
@@ -15,7 +17,7 @@ def get_accounts(symbol):
 		return account['data'] 
 	else:
 		return Flase
-#--------------------------获取订单信息----------------------------
+#--------------------------GET ORDER INFO----------------------------
 def get_orders(pair):
 	headers = tools.get_headers()
 	parameters = parse.urlencode(pair)
@@ -29,7 +31,7 @@ def get_orders(pair):
 		return False
 
 
-#--------------------------创建单个订单----------------------------
+#--------------------------CREATE ONE ORDER ----------------------------
 def create_one_order(order):
 	headers = tools.get_headers(custom_headers = {'Content-Type': 'application/json'})
 	url = globalval.GL_API_URL_PREFIX + 'viewer/orders'
@@ -44,7 +46,7 @@ def create_one_order(order):
 	else:
 		return False
 
-#--------------------------创建多个订单，1-10个----------------------------
+#--------------------------CREATR MULTI ORDERS 1-10----------------------------
 def create_orders(orders):
 	headers = tools.get_headers(custom_headers = {'Content-Type': 'application/json'})
 	if isinstance(orders, dict):
@@ -62,7 +64,7 @@ def create_orders(orders):
 	else:
 		return False
 
-#--------------------------取消指定订单----------------------------
+#--------------------------CANCEL ORDER BY ID----------------------------
 def cancel_order(order_id):
 	headers = tools.get_headers()
 	url = globalval.GL_API_URL_PREFIX + 'viewer/orders/' + str(order_id) + '/cancel'
@@ -74,7 +76,7 @@ def cancel_order(order_id):
 	else:
 		return False
 
-#--------------------------取消某交易对全部订单----------------------------
+#--------------------------CANCEL ORDERS BY PAIRS----------------------------
 def cancel_orders_by_pair(pair):
 	pair2dict = {'asset_pair_name':pair}
 	headers = tools.get_headers()

@@ -17,6 +17,7 @@ def task_clean_invalid_job_and_order():
 	global out_of_date_job
 	global need_cancel_order_pairs
 	# remove job
+	time.sleep(3)
 	if len(out_of_date_job):
 		print('remove outdate job starts...')
 		out_of_date_job_copy = out_of_date_job.copy()

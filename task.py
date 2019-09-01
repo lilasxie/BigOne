@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-import time, sched
+# -*- coding: utf-8 -*-
+import time, sched
 import random
 import globalval
 from urllib import request, parse

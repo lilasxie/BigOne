@@ -12,7 +12,7 @@ def keep_ask_position(ask_price_and_id, asset_pair_name, side, amount, min_posit
 	order_book = public.get_order_book(asset_pair_name)
 	asks = order_book['asks']
 	ask_order = {"asset_pair_name": asset_pair_name, "side": side, "price": "", "amount": str(amount)}
-	if not asks[min_position]['price'] < ask_price_and_id[0] < asks[max_position]['price']:
+	if not asks[min_position]['price'] <= ask_price_and_id[0] <= asks[max_position]['price']:
 		fun.cancel_order(ask_price_and_id[1])
 		ask_order['price'] = asks[int((max_position+min_position)/2)]['price']
 		ask_order = fun.create_orders(ask_order)
@@ -32,7 +32,7 @@ def keep_ask_position_task(asset_pair_name, side, amount, min_position, max_posi
 		print('No ' + asset_pair_name + ' current ask order found and gonna create one')
 		order_book = public.get_order_book(asset_pair_name)
 		asks = order_book['asks']
-		ask_order['price'] = asks[int((max_position+min_position)/2)]['price']
+		ask_order['price'] = asks[int((max_position + min_position)/2)]['price']
 		ask_order = fun.create_orders(ask_order)
 		print('A new ' + asset_pair_name + ' ask order created')
 		ask_price_and_id = (ask_order['price'], ask_order['id'])		
@@ -53,8 +53,8 @@ def keep_bid_position(bid_price_and_id, asset_pair_name, side, amount, min_posit
 	order_book = public.get_order_book(asset_pair_name)
 	bids = order_book['bids']
 	bid_order = {"asset_pair_name": asset_pair_name, "side": side, "price":"", "amount": str(amount)}
-	if not bids[max_position]['price'] < bid_price_and_id[0] < bids[min_position]['price']:
-		bid_order['price'] = bids[int((max_position+min_position)/2)]['price']
+	if not bids[max_position]['price'] <= bid_price_and_id[0] <= bids[min_position]['price']:
+		bid_order['price'] = bids[int((max_position + min_position)/2)]['price']
 		fun.cancel_order(bid_price_and_id[1])
 		bid_order = fun.create_orders(bid_order)
 		print('The position of {} bid order is not {}-{}, a new bid order created : price: {}, amount:{}'.format(asset_pair_name, min_position, max_position, bid_order['price'], bid_order['amount']) )

@@ -56,14 +56,14 @@ if __name__ == '__main__':
 		out_of_date_job_temp.append(k)
 		need_cancel_order_pairs_temp.add(v["args"][0])
 		count += 1
-		if count % 4 == 0:
+		if count % 6 == 0:
 			# sleep 15m
 			time.sleep(15 * 60)
 			out_of_date_job = out_of_date_job_temp.copy()
 			need_cancel_order_pairs = need_cancel_order_pairs_temp.copy()
 			out_of_date_job_temp.clear()
 			need_cancel_order_pairs_temp.clear()
-	if len(asset_pairs_map) % 4:
+	if len(asset_pairs_map) % 6:
 		time.sleep(15 * 60)
 		out_of_date_job = out_of_date_job_temp.copy()
 		need_cancel_order_pairs = need_cancel_order_pairs_temp.copy()	

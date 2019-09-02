@@ -17,11 +17,12 @@ def task_clean_invalid_job_and_order():
 	global out_of_date_job
 	global need_cancel_order_pairs
 	# remove job
-	time.sleep(3)
 	if len(out_of_date_job):
+		time.sleep(4)
 		print('remove outdate job starts...')
 		out_of_date_job_copy = out_of_date_job.copy()
 		for invalid_job in out_of_date_job_copy:
+			scheduler.pause_job(invalid_job)
 			scheduler.remove_job(invalid_job)
 			out_of_date_job.remove(invalid_job)
 	else:
@@ -46,7 +47,7 @@ if __name__ == '__main__':
 	asset_pairs_map = {}
 	out_of_date_job_temp = []
 	need_cancel_order_pairs_temp = set()
-	scheduler.add_job(task_clean_invalid_job_and_order, 'interval', seconds = 60, max_instances = 50, id = 'cleaner' )
+	scheduler.add_job(task_clean_invalid_job_and_order, 'interval', seconds = 20, max_instances = 50, id = 'cleaner' )
 	with open("config/conf.json", 'r') as load_f:
 		asset_pairs_map = json.load(load_f)
 	count = 0
@@ -70,8 +71,8 @@ if __name__ == '__main__':
 		need_cancel_order_pairs = need_cancel_order_pairs_temp.copy()	
 		out_of_date_job_temp.clear()
 		need_cancel_order_pairs_temp.clear()
-	scheduler.remove_job('cleaner')	
-	time.sleep(70)
+	scheduler.remove_job('cleaner')
+	time.sleep(20)
 
 
 	#app.run(host='0.0.0.0', port=8080, debug=True)

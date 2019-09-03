@@ -71,8 +71,8 @@ if __name__ == '__main__':
 		need_cancel_order_pairs = need_cancel_order_pairs_temp.copy()	
 		out_of_date_job_temp.clear()
 		need_cancel_order_pairs_temp.clear()
+	time.sleep(30)
 	scheduler.remove_job('cleaner')
-	time.sleep(20)
 
 
 	#app.run(host='0.0.0.0', port=8080, debug=True)

@@ -53,7 +53,7 @@ if __name__ == '__main__':
 	count = 0
 	for k, v in asset_pairs_map.items():
 		scheduler.add_job(task.task_keep_position, 'interval', args = v["args"], max_instances = v["max_instances"], seconds = v["seconds"], id = k)
-		time.sleep(0.5)
+		time.sleep(0.2)
 		# add to out_of_date_job list and need_cancel_order_pairs
 		out_of_date_job_temp.append(k)
 		need_cancel_order_pairs_temp.add(v["args"][0])

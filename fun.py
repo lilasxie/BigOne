@@ -6,21 +6,30 @@ import globalval
 import json
 
 #--------------------------GET ACCOUNT INFO----------------------------
-def get_accounts(symbol):
-	headers = tools.get_headers()
+
+def get_accounts(symbol, auth_filename = 'auth'):
+	headers = tools.get_headers(auth_filename = auth_filename)
 	url = globalval.GL_API_URL_PREFIX + 'viewer/accounts/' + symbol
-	req_accounts = request.Request(url, headers = headers, origin_req_host = 'b1.run', method = 'GET')
-	resp_accounts = request.urlopen(req_accounts).read().decode()
-	account = json.loads(resp_accounts)
-	print(account)
+	req_account = request.Request(url, headers = headers, origin_req_host = 'b1.run', method = 'GET')
+	resp_account = request.urlopen(req_account).read().decode()
+	account = json.loads(resp_account)
 	if account['code'] == 0:
-		return account['data'] 
+		return account['data']
 	else:
-		return Flase
+		return False
+
 #--------------------------GET ORDER INFO----------------------------
-def get_orders(pair):
+
+def get_orders(asset_pair_name, side = None):
+	'''
+	returns a list, every element is a dict
+	'''
+	if side:
+		pair2dict = {'asset_pair_name' : asset_pair_name, 'side' : side}
+	else:
+		pair2dict = {'asset_pair_name' : asset_pair_name}
 	headers = tools.get_headers()
-	parameters = parse.urlencode(pair)
+	parameters = parse.urlencode(pair2dict)
 	url = globalval.GL_API_URL_PREFIX + 'viewer/orders' + '?' + parameters
 	req_orders = request.Request(url, headers = headers, origin_req_host = 'b1.run', method = 'GET')
 	resp_orders = request.urlopen(req_orders).read().decode()
@@ -30,16 +39,29 @@ def get_orders(pair):
 	else:
 		return False
 
+def get_trades(asset_pair_name = None):
+	'''
+	'''
+	headers = tools.get_headers()
+	parameters = parse.urlencode({"asset_pair_name" : asset_pair_name})
+	url = globalval.GL_API_URL_PREFIX + 'viewer/trades' + '?' + parameters
+	req_trades = request.Request(url, headers = headers, origin_req_host = 'b1.run', method = 'GET')
+	resp_trades = request.urlopen(req_trades).read().decode()
+	trades = json.loads(resp_trades)
+
+	if trades['code'] == 0:
+		return trades['data'] 
+	else:
+		return False
+
 
 #--------------------------CREATE ONE ORDER ----------------------------
 def create_one_order(order):
 	headers = tools.get_headers(custom_headers = {'Content-Type': 'application/json'})
 	url = globalval.GL_API_URL_PREFIX + 'viewer/orders'
 	data = json.dumps(order).encode(encoding = 'utf-8')
-	print(data)
 	req_order = request.Request(url, data = data, headers = headers, origin_req_host = 'b1.run', method = 'POST')
 	resp_order = request.urlopen(req_order).read().decode()
-	print(resp_order)
 	order = json.loads(resp_order)
 	if order['code'] == 0:
 		return order['data'] 

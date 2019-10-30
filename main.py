@@ -48,7 +48,7 @@ if __name__ == '__main__':
 	out_of_date_job_temp = []
 	need_cancel_order_pairs_temp = set()
 	scheduler.add_job(task_clean_invalid_job_and_order, 'interval', seconds = 20, max_instances = 50, id = 'cleaner' )
-	with open("config/conf.json", 'r') as load_f:
+	with open("config/conf_test.json", 'r') as load_f:
 		asset_pairs_map = json.load(load_f)
 	count = 0
 	for k, v in asset_pairs_map.items():
@@ -58,15 +58,15 @@ if __name__ == '__main__':
 		out_of_date_job_temp.append(k)
 		need_cancel_order_pairs_temp.add(v["args"][0])
 		count += 1
-		if count % 6 == 0:
+		if count % 8 == 0:
 			# sleep 15m
-			time.sleep(15 * 60)
+			time.sleep(4*60 * 60)
 			out_of_date_job = out_of_date_job_temp.copy()
 			need_cancel_order_pairs = need_cancel_order_pairs_temp.copy()
 			out_of_date_job_temp.clear()
 			need_cancel_order_pairs_temp.clear()
-	if len(asset_pairs_map) % 6:
-		time.sleep(15 * 60)
+	if len(asset_pairs_map) % 8:
+		time.sleep(4*60 * 60)
 		out_of_date_job = out_of_date_job_temp.copy()
 		need_cancel_order_pairs = need_cancel_order_pairs_temp.copy()	
 		out_of_date_job_temp.clear()

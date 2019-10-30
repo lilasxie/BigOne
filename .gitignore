@@ -1,5 +1,6 @@
 __pycache__/
 config/
+data_saved/
 test.py
 test_*.py
 logs/
